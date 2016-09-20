@@ -175,6 +175,11 @@ kind: Deployment
 metadata:
   name: front-end
 spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+    type: RollingUpdate
   replicas: 1
   template:
     metadata:
