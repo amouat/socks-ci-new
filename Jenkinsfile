@@ -38,18 +38,21 @@ node {
    }
    
    stage ("Deploy") {
-       //Bit on testing
+       
        sh ("kubectl set image deployment/front-end front-end=${repo}@$hash")
        timeout(time:5, unit:'MINUTES') {
          sh ("kubectl rollout status deployment/front-end")
        }
        
+       sh ('[ "200" = $(curl -s -o /dev/null -w "%{http_code}" http://socks.example.com/healthz) ]')
    }
    
    //notifications
+   //testing in prod
    //scanning
    //healthchecks
    //rollbacks (can be done with redeploy)
    //make point about hashes not being nice in deployment
    //parallel
+   //use workers in real system, certs for docker and kubectl
 }
